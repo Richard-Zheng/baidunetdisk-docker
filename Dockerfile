@@ -13,7 +13,7 @@ RUN apt-get update \
                           desktop-file-utils    \
                           libasound2-dev        \
                           locales               \
-                          fonts-wqy-zenhei      \   
+                          fonts-wqy-zenhei      \
                           libgtk-3-0            \
                           libnotify4            \
                           libnss3               \
@@ -21,7 +21,7 @@ RUN apt-get update \
                           libxtst6              \
                           xdg-utils             \
                           libatspi2.0-0         \
-                          libuuid1              \  
+                          libuuid1              \
                           libappindicator3-1    \
                           libsecret-1-0         \
     && rm -rf /var/lib/apt/lists/*
