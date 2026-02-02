@@ -34,7 +34,8 @@ RUN \
     APP_ICON_URL='https://raw.githubusercontent.com/KevinLADLee/baidunetdisk-docker/master/logo.png' && \
     install_app_icon.sh "$APP_ICON_URL"
 
-COPY rootfs/ /
+COPY rootfs/etc/cont-init.d/baidunetdisk.sh /etc/cont-init.d/baidunetdisk.sh
+COPY rootfs/startapp.sh /startapp.sh
 
 RUN chmod +x /startapp.sh /etc/cont-init.d/baidunetdisk.sh
 
