@@ -1,6 +1,6 @@
 FROM jlesage/baseimage-gui:debian-12-v4
 
-ENV VERSION=4.14.5
+ENV VERSION=4.17.7
 ENV URI=https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/$VERSION/baidunetdisk_${VERSION}_amd64.deb
 
 ENV ENABLE_CJK_FONT=1
