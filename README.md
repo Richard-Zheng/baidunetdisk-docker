@@ -15,7 +15,7 @@ docker run -d \
 -p 5900:5900  \ 
 -e ENABLE_CJK_FONT=1 \ 
 -e VNC_PASSWORD=YOUR_PASSWORD \
-kevinlad/baidunetdisk-docker:latest
+weacc/baidunetdisk-docker:latest
 ```
 
 等待初始化完成后，可以在浏览器端打开 `http://127.0.0.1:5800`。也可以使用任何VNC客户端连接`5900`端口。
