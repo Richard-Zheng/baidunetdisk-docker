@@ -3,9 +3,9 @@ FROM jlesage/baseimage-gui:debian-12-v4
 ENV VERSION=4.14.5
 ENV URI=https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/$VERSION/baidunetdisk_${VERSION}_amd64.deb
 
-ENV DISPLAY=":1"
 ENV ENABLE_CJK_FONT=1
 ENV TZ=Asia/Shanghai
+ENV SERVICES_GRACETIME=8000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget curl  \
@@ -36,8 +36,9 @@ RUN \
 
 COPY rootfs/ /
 
-ENV APP_NAME="BaiduNetdisk" \
-    S6_KILL_GRACETIME=8000
+RUN chmod +x /startapp.sh /etc/cont-init.d/baidunetdisk.sh
+
+ENV APP_NAME="BaiduNetdisk"
 
 WORKDIR /config
 
