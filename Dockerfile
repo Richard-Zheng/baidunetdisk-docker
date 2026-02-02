@@ -23,7 +23,7 @@ RUN apt-get update \
                           libatspi2.0-0         \
                           libuuid1              \
                           libappindicator3-1    \
-                          libsecret-1-0         \
+                          libsecret-1-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L ${URI} -o /defaults/baidunetdisk.deb     \
