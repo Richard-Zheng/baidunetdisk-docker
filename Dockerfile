@@ -7,23 +7,24 @@ ENV DISPLAY=":1"
 ENV ENABLE_CJK_FONT=1
 ENV TZ=Asia/Shanghai
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends wget curl  \
-                          ca-certificates \
-                          desktop-file-utils    \
-                          libasound2-dev        \
-                          locales               \
-                          fonts-wqy-zenhei      \
-                          libgtk-3-0            \
-                          libnotify4            \
-                          libnss3               \
-                          libxss1               \
-                          libxtst6              \
-                          xdg-utils             \
-                          libatspi2.0-0         \
-                          libuuid1              \
-                          libappindicator3-1    \
-                          libsecret-1-0 \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    curl \
+    ca-certificates \
+    desktop-file-utils \
+    libasound2-dev \
+    locales \
+    fonts-wqy-zenhei \
+    libgtk-3-0 \
+    libnotify4 \
+    libnss3 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
+    libatspi2.0-0 \
+    libuuid1 \
+    libayatana-appindicator3-1 \
+    libsecret-1-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L ${URI} -o /defaults/baidunetdisk.deb     \
