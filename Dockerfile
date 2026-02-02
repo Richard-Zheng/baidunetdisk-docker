@@ -1,45 +1,33 @@
-FROM jlesage/baseimage-gui:debian-12-v4
+FROM jlesage/baseimage-gui:debian-12-v4.9.0
 
-ENV VERSION=4.17.7
-ENV URI=https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/$VERSION/baidunetdisk_${VERSION}_amd64.deb
+ARG BAIDUNETDISK_VER=4.17.7
+ARG BAIDUNETDISK_VER_ARM64=4.17.7
 
-ENV ENABLE_CJK_FONT=1
+ENV APP_NAME="Baidunetdisk"
+ENV NOVNC_LANGUAGE="zh_Hans"
 ENV TZ=Asia/Shanghai
-ENV SERVICES_GRACETIME=8000
+ENV HOME=/config
+ENV LC_ALL=C
+ENV ENABLE_DISABLE_GPU=false
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget curl  \
-    ca-certificates \
-    desktop-file-utils    \
-    libasound2-dev        \
-    locales               \
-    fonts-wqy-zenhei      \
-    libgtk-3-0            \
-    libnotify4            \
-    libnss3               \
-    libxss1               \
-    libxtst6              \
-    xdg-utils             \
-    libatspi2.0-0         \
-    libuuid1              \
-    libappindicator3-1    \
-    libsecret-1-0 \
-    && rm -rf /var/lib/apt/lists/*
+COPY --chmod=755 startapp.sh /startapp.sh
 
-RUN curl -L ${URI} -o /defaults/baidunetdisk.deb     \
-    && apt-get install -y /defaults/baidunetdisk.deb \
-    && rm /defaults/baidunetdisk.deb 
-
-RUN \
-    APP_ICON_URL='https://raw.githubusercontent.com/KevinLADLee/baidunetdisk-docker/master/logo.png' && \
-    install_app_icon.sh "$APP_ICON_URL"
-
-COPY rootfs/etc/cont-init.d/baidunetdisk.sh /etc/cont-init.d/baidunetdisk.sh
-COPY rootfs/startapp.sh /startapp.sh
-
-RUN chmod +x /startapp.sh /etc/cont-init.d/baidunetdisk.sh
-
-ENV APP_NAME="BaiduNetdisk"
+RUN apt-get update \
+&& apt-get install -y --no-install-recommends ca-certificates wget libnss3 libxss1 desktop-file-utils libasound2 ttf-wqy-zenhei libgtk-3-0 libgbm1 libnotify4 \
+                      xdg-utils libsecret-common libsecret-1-0 libdbusmenu-glib4 libdbusmenu-gtk3-4 procps \
+                      libayatana-indicator3-7 libayatana-appindicator3-1 libayatana-ido3-0.4-0 libxtst6 libx11-xcb1 x11-xserver-utils \
+&& if [ "$(uname -m)" = "x86_64" ];then baidunetdisk_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then baidunetdisk_arch=arm64; fi \
+&& if [ "$(uname -m)" = "x86_64" ];then baidunetdisk_ver=${BAIDUNETDISK_VER};elif [ "$(uname -m)" = "aarch64" ];then baidunetdisk_ver=${BAIDUNETDISK_VER_ARM64}; fi \
+&& wget https://issuepcdn.baidupcs.com/issue/netdisk/LinuxGuanjia/${baidunetdisk_ver}/baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
+&& dpkg -i  baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
+&& rm  baidunetdisk_${baidunetdisk_ver}_${baidunetdisk_arch}.deb \
+&& install_app_icon.sh https://raw.githubusercontent.com/gshang2017/docker/master/baidunetdisk/icon/baidunetdisk.png \
+#fix window decorations
+&& sed -i 's@<decor>no<\/decor>@<decor>yes<\/decor>@g' /opt/base/etc/openbox/rc.xml.template \
+#novnc_language
+#&& mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
+#fix dpkg
+&& sed -i '/messagebus/d' /var/lib/dpkg/statoverride
 
 WORKDIR /config
 
