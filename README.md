@@ -5,15 +5,15 @@
 如何使用：
 
 ```bash
-docker run -d \ 
---name baidunetdisk \ 
--v /PATH_TO_CONFIG:/config \ 
--v /PATH_TO_DOWNLOADS:/downloads \ 
--e GROUP_ID=1000 \ 
--e USER_ID=1000 \ 
--p 5800:5800 \ 
--p 5900:5900  \ 
--e ENABLE_CJK_FONT=1 \ 
+docker run -d \
+--name baidunetdisk \
+-v /opt/badidunetdisk/config:/config \
+-v /opt/badidunetdisk/downloads:/downloads \
+-e GROUP_ID=1000 \
+-e USER_ID=1000 \
+-p 5800:5800 \
+-p 5900:5900  \
+-e ENABLE_CJK_FONT=1 \
 -e VNC_PASSWORD=YOUR_PASSWORD \
 weacc/baidunetdisk-docker:latest
 ```
